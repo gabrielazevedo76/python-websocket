@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Number Boxes</title>
+  <style>
+    .box {
+      width: 200px;
+      height: 100px;
+      border: 1px solid black;
+      margin-bottom: 10px;
+      text-align: center;
+      line-height: 100px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+  </style>
+</headxs>
+<body>
+  <div class="box" id="box1">{{p1}}</div>
+  <div class="box" id="box2">{{p2}}</div>
+  <button id="btn1" onclick="btnCliked1()" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">Click Me1</button>
+  <button id="btn1" onclick="btnCliked2()" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">Click Me2</button>
+  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+  <script>
+
+        var webSocket = new WebSocket("ws://localhost:8001/");
+
+        var socket = io("http://127.0.0.1:5050");
+
+        socket.on('connect', function() {
+            console.log('Connected to server');
+        });
+
+        socket.on('message', function(data) {
+            console.log('Received message: ' + data.data);
+            var box1 = document.getElementById('box1');
+            var box1 = document.getElementById('box1');
+            box1.textContent = data.data[0].player1;
+            box2.textContent = data.data[1].player2;
+        });
+
+        function  btnCliked1() {
+          console.log("button clicked")
+          socket.emit('btn_click1');
+        }
+
+        function  btnCliked2() {
+          console.log("button clicked")
+          socket.emit('btn_click2');
+        }
+  </script>
+</body>
+</html>
